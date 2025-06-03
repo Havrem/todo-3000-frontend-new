@@ -29,7 +29,7 @@ async function request<T>(
       if(isErrorResponse(data)) {
         throw new ApiError(data);
       } else {
-        throw new Error("Unexpected error response");
+        throw new Error("Unexpected error response"); //TODO: These errors are not being caught and handled by caller properly.
       }
     }
 
