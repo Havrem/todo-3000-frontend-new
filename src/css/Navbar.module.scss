@@ -2,7 +2,7 @@
     position: sticky;
     bottom: 0;
     width: 100%;
-    background-color: aqua;
+    background-color: rgb(223, 253, 253);
 }
 
 .innerContainer {
@@ -11,4 +11,5 @@
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 1rem;
+    border-top: 0.5rem solid rgb(150, 207, 138);
 }

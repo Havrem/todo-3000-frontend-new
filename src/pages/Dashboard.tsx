@@ -4,19 +4,7 @@ export const Dashboard = () => {
     return (
         <div className={styles.mainContainer}>
             <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-            <p>This is dashboard</p>
-                        <p>This is dashboard</p>
-            <p>This is dashboard</p>
+            {/* <p>This is dashboard</p>
             <p>This is dashboard</p>
             <p>This is dashboard</p>
             <p>This is dashboard</p>
@@ -39,6 +27,18 @@ export const Dashboard = () => {
             <p>This is dashboard</p>
             <p>This is dashboard</p>
             <p>This is dashboard</p>
+                        <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p>
+            <p>This is dashboard</p> */}
         </div>
     );
 }

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { AuthHeader } from '../components/auth/AuthHeader'
 import { LoginForm } from '../components/auth/LoginForm'
 import styles from '../css/Login.module.scss'
@@ -7,7 +8,7 @@ export const Login = () => {
         <div className={styles.mainContainer}>
             <AuthHeader/>
             <LoginForm/>
-            <a>Don't have an account yet? Signup!</a>
+            <Link to="/register">Don't have an account yet? Signup!</Link>
             <div className={styles.divider}/>
         </div>
     );
