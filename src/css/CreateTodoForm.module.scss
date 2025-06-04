@@ -1,0 +1,60 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // margin-inline: 1rem;
+    gap: 0.5rem;
+    width: 100%;
+    // border: 1px solid red;
+    // background-color: aqua;
+
+    h1 {
+        text-align: center;
+    }
+
+    button {
+        cursor: pointer;
+        border: 0;
+        border: 0.05rem solid rgb(0, 0, 0);
+        padding: 0.7rem;
+        // border-radius: 0.5rem;
+    }
+
+    button.add {
+        background-color: rgb(221, 248, 208);
+    }
+
+    button.cancel {
+        background-color: #e7e7e7;
+    }
+}
+
+.mainContainer > * {
+    width: 100%;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    // margin-bottom: 1rem;
+
+    p {
+        margin: 0;
+        font-size: small;
+        color: #ff0000;
+        
+    }
+
+    input {
+        // margin-bottom: 1rem;
+        padding: 0.5rem;
+    }
+
+    label {
+        color: rgb(0, 0, 0);
+        margin-bottom: 0.3rem;
+        font-family: 'Roboto Condensed';
+        font-weight: 700;
+        font-size: 1rem;
+    }
+}

@@ -2,7 +2,7 @@ import type { ErrorDetail, ErrorResponse } from "../types/api"
 
 export function isErrorDetail(data: any): data is ErrorDetail {
     return (
-        typeof data.code === "number" &&
+        typeof data.code === "string" &&
         typeof data.message === "string" &&
         typeof data.location === "string" &&
         typeof data.locationType === "string"

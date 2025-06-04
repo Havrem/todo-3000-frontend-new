@@ -3,14 +3,15 @@ import { Background } from "./layouts/Background";
 import { Public } from "./layouts/Public";
 import { Login } from "./pages/Login";
 import { Bounce, ToastContainer } from "react-toastify";
-import { AuthProvider } from "./contexts/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import { Protected } from "./layouts/Protected";
 import { Dashboard } from "./pages/Dashboard";
+import { Todos } from "./pages/Todos";
+import { Profile } from "./pages/Profile";
 
 const rootRoute = createRootRoute({
     component: () => (
-        <AuthProvider>
+        <>
             <ToastContainer
                 position='top-right'
                 autoClose={3000}
@@ -20,7 +21,7 @@ const rootRoute = createRootRoute({
             <Background>
                 <Outlet/>
             </Background>
-        </AuthProvider>
+        </>
     )
 });
 
@@ -48,9 +49,21 @@ const dashboardRoute = createRoute({
     component: Dashboard
 })
 
+const todosRoute = createRoute({
+    getParentRoute: () => protectedRoute,
+    path: '/todos',
+    component: Todos
+});
+
+const profileRoute = createRoute({
+    getParentRoute: () => protectedRoute,
+    path: '/profile',
+    component: Profile
+});
+
 export const routeTree = rootRoute.addChildren([
     publicRoute.addChildren([loginRoute]),
-    protectedRoute.addChildren([dashboardRoute])
+    protectedRoute.addChildren([dashboardRoute, todosRoute, profileRoute])
 ]);
 
 export const router = createRouter({routeTree});

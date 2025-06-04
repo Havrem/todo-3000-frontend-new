@@ -9,7 +9,7 @@ async function request<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token = auth.currentUser?.getIdToken();
+  const token = await auth.currentUser?.getIdToken();
 
   //Creates a javascript object with this as a property. HeadersInit allows plain objects as long as both key and values is string type?
   const headers: HeadersInit = {
@@ -23,7 +23,14 @@ async function request<T>(
       ...options, //Method, body etc...
       headers
     });
-    const data = await res.json();
+    const text = await res.text();
+    let data: T | null = null;
+
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = null;
+    }
     
     if (!res.ok) {
       if(isErrorResponse(data)) {
@@ -33,7 +40,7 @@ async function request<T>(
       }
     }
 
-    return data;
+    return data as T;
   } catch (err) {
     if (err instanceof ApiError) {
       throw err;

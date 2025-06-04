@@ -1,0 +1,24 @@
+.mainContainer {
+    // border: 1px solid blue;
+    // width: 100%;
+    background-color: rgb(223, 253, 253);
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding-inline: 0.5rem;
+    
+    button {
+        all:unset;
+    }
+
+    button.remove {
+        margin-left: auto;
+    }
+}
+
+.modalThing {
+    border: 0.05rem solid rgb(0, 0, 0);
+    background-color: #ffffff;
+    margin: 1rem;
+    padding: 0.5rem;
+}
