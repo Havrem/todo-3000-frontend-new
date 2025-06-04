@@ -3,6 +3,7 @@ import { Footer } from "../components/Footer";
 import styles from '../css/ProtectedLayout.module.scss'
 import { useAuth } from '../hooks/useAuth';
 import { DotLoader } from 'react-spinners';
+import { Navbar } from '../components/Navbar';
 
 export const Protected = () => { 
     const {user, initializing} = useAuth();
@@ -25,7 +26,8 @@ export const Protected = () => {
     return ( 
         <div className={styles.mainContainer}>
             <Outlet/>
-            <Footer></Footer>
+            <Navbar />
+            {/* <Footer/> */}
         </div>
     );
 }

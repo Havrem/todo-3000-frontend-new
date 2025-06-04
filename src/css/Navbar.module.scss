@@ -1,0 +1,14 @@
+.mainContainer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: aqua;
+}
+
+.innerContainer {
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+}

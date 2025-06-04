@@ -6,7 +6,7 @@ export const Public = () => {
     return ( 
         <div className={styles.mainContainer}>
             <Outlet/>
-            <Footer></Footer>
+            <Footer/>
         </div>
     );
 }
