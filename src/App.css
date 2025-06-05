@@ -2,6 +2,9 @@
 /* #root {
   padding: 1rem;
 } */
+::-webkit-scrollbar {
+  display: none;               /* Completely hide the scrollbar track */
+}
 
 html, body {
   margin: 0;

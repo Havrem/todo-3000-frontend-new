@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import styles from '../css/ProfileLarge.module.scss';
 import { useAuth } from '../hooks/useAuth';
-import flowers from '../assets/flowers.png';
+import flowers from '../assets/frogflower.png';
 
 export const ProfileLarge = () => {
     const { user } = useAuth();

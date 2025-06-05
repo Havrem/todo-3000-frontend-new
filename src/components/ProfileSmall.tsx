@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import styles from '../css/ProfileSmall.module.scss';
 import { useAuth } from '../hooks/useAuth';
-import flowers from '../assets/flowers.png';
+import flowers from '../assets/frogflower.png';
 
 export const ProfileSmall = () => {
     const { user, logout } = useAuth();

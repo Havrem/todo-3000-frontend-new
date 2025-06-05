@@ -1,6 +1,5 @@
 import { Link } from '@tanstack/react-router';
 import { AuthHeader } from '../components/auth/AuthHeader'
-import { LoginForm } from '../components/auth/LoginForm'
 import styles from '../css/Login.module.scss'
 import { RegisterForm } from '../components/auth/RegisterForm';
 
