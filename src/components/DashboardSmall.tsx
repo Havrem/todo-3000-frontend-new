@@ -4,7 +4,6 @@ import { useTodos } from '../hooks/useTodos';
 import { toast } from 'react-toastify';
 import { PuffLoader } from 'react-spinners';
 import dayjs from 'dayjs';
-import flowers from '../assets/flowers.png';
 import { useAuth } from '../hooks/useAuth';
 
 export const DashboardSmall = () => {

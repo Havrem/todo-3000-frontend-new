@@ -1,4 +1,3 @@
-import { useNavigate } from '@tanstack/react-router';
 import styles from '../css/ProfileLarge.module.scss';
 import { useAuth } from '../hooks/useAuth';
 import flowers from '../assets/frogflower.png';
