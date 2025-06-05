@@ -13,3 +13,12 @@
     gap: 1rem;
     border-top: 0.5rem solid rgb(150, 207, 138);
 }
+
+.linkicons {
+    all: unset;
+    background: none;
+}
+
+a {
+    -webkit-tap-highlight-color: transparent;
+}

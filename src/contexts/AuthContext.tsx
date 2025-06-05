@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import type { AuthContextType } from "../types/auth";
 import type { ReactNode } from "react";
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
 import { auth } from "../services/firebaseService";
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined); //Creates an empty box that contained AuthContextType or undefined. It will be undefined if authcontext is called outside of an authprovider, as it is the authprovider that sets the value for the authcontext in its return.
@@ -35,12 +35,17 @@ export const AuthProvider = ({children}:{children: ReactNode}) => { //Components
         await signOut(auth);
     }
 
+    const register = async (email: string, password: string): Promise<void> => {
+        await createUserWithEmailAndPassword(auth, email, password);
+    };
+
     const authContextValue = { //The object given to callers calling useContext(AuthContext) inside the authcontext provider tree.
         user,
         initializing,
         loggingIn,
         login,
-        logout
+        logout,
+        register
     }
     
     return ( //The children can contact the context via useContext, and when they do they are given the authContextValue object.

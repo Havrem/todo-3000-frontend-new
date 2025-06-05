@@ -8,6 +8,7 @@ import { Protected } from "./layouts/Protected";
 import { Dashboard } from "./pages/Dashboard";
 import { Todos } from "./pages/Todos";
 import { Profile } from "./pages/Profile";
+import { Register } from "./pages/Register";
 
 const rootRoute = createRootRoute({
     component: () => (
@@ -43,6 +44,12 @@ const loginRoute = createRoute({
     component: Login
 });
 
+const registerRoute = createRoute({
+    getParentRoute: () => publicRoute,
+    path: '/register',
+    component: Register
+});
+
 const dashboardRoute = createRoute({
     getParentRoute: () => protectedRoute,
     path: '/dashboard',
@@ -62,7 +69,7 @@ const profileRoute = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-    publicRoute.addChildren([loginRoute]),
+    publicRoute.addChildren([loginRoute, registerRoute]),
     protectedRoute.addChildren([dashboardRoute, todosRoute, profileRoute])
 ]);
 
