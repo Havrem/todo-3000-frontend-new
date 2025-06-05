@@ -38,6 +38,12 @@ const protectedRoute = createRoute({
     component: Protected
 })
 
+const homeRoute = createRoute({
+  getParentRoute: () => publicRoute,
+  path: '/',
+  component: Login
+});
+
 const loginRoute = createRoute({
     getParentRoute: () => publicRoute,
     path: '/login',
@@ -69,7 +75,7 @@ const profileRoute = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-    publicRoute.addChildren([loginRoute, registerRoute]),
+    publicRoute.addChildren([loginRoute, registerRoute, homeRoute]),
     protectedRoute.addChildren([dashboardRoute, todosRoute, profileRoute])
 ]);
 
