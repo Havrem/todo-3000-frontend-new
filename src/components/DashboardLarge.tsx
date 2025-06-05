@@ -51,7 +51,7 @@ export const DashboardLarge = () => {
 
                         {upcoming.length == 0 ? 
                         (
-                            <p>It's empty here.</p>
+                            <p></p>
                         ) :
                         (
                             <div className={styles.list}>

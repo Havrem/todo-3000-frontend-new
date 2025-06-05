@@ -50,7 +50,7 @@ export const DashboardSmall = () => {
 
                         {upcoming.length == 0 ? 
                         (
-                            <p>It's empty here.</p>
+                            <p></p>
                         ) :
                         (
                             <div className={styles.list}>
@@ -66,9 +66,6 @@ export const DashboardSmall = () => {
                         )}
                     </div>
                 </div>
-                {/* <div className={styles.right}>
-                    <img src={flowers} className={styles.flowers}/>
-                </div> */}
             </div>
         </div>
     );
