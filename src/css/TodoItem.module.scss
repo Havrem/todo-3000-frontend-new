@@ -22,3 +22,11 @@
     margin: 1rem;
     padding: 0.5rem;
 }
+
+@media(min-width: 768px) {
+    .modalThing {
+        // border: 40px solid rgb(255, 7, 89);
+        width: 40vw;
+        justify-self: center;
+    }
+}

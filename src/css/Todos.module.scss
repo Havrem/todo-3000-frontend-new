@@ -1,9 +1,9 @@
 .mainContainer{
     // background-color: rgb(169, 230, 248);
-    margin-inline:2%;
+    // margin-inline:2%;
     margin-top: 20%;
     margin-bottom: 10%;
-    // padding: 2%;
+    padding: 2%;
     display: flex;
     flex-direction: column;
     // flex-wrap: wrap;
@@ -12,6 +12,7 @@
 
     overflow-y: auto;
     flex: 1;
+    // border: 1px solid red;
 }
 
 .spinner {
@@ -29,4 +30,11 @@
 
     overflow-y: auto;
     flex: 1;
+}
+
+@media(min-width: 768px) {
+    .mainContainer {
+        width: 70vw;
+        margin-top: 5%;
+    }
 }

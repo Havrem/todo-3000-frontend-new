@@ -4,6 +4,7 @@ import styles from '../css/ProtectedLayout.module.scss'
 import { useAuth } from '../hooks/useAuth';
 import { DotLoader } from 'react-spinners';
 import { Navbar } from '../components/Navbar';
+import { NavbarWeb } from '../components/NavbarWeb';
 
 export const Protected = () => { 
     const {user, initializing} = useAuth();
@@ -25,9 +26,11 @@ export const Protected = () => {
 
     return ( 
         <div className={styles.mainContainer}>
+            {/* <NavbarWeb/> */}
+            <NavbarWeb/>
             <Outlet/>
             <Navbar />
-            {/* <Footer/> */}
+            <Footer/>
         </div>
     );
 }

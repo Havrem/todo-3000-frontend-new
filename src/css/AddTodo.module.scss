@@ -32,3 +32,10 @@
     margin: 1rem;
     padding: 0.5rem;
 }
+
+@media(min-width: 768px) {
+    .modalThing {
+        justify-self: center;
+        width: 40vw;
+    }
+}
