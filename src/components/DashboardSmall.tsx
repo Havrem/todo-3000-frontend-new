@@ -13,7 +13,7 @@ export const DashboardSmall = () => {
     const upcoming = todos
             .filter(todo => !todo.completed)
             .sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime())
-            .slice(0, 7);
+            .slice(0, 2);
 
     useEffect(() => {
         if (isError) {
