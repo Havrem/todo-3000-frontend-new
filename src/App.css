@@ -6,6 +6,12 @@
   display: none;               /* Completely hide the scrollbar track */
 }
 
+button {
+  all: unset;
+  cursor: pointer;
+  font: inherit;
+}
+
 *,
 *::before,
 *::after {

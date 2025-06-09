@@ -12,7 +12,7 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-export const TodoItem = ({todo}:{todo:Todo}) => {
+export const TodoItem = ({todo, select}:{todo:Todo, select: (todoId: number) => void}) => {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
     const deleteTodo = useDeleteTodo();
     const updateTodo = useUpdateTodo();
@@ -27,7 +27,7 @@ export const TodoItem = ({todo}:{todo:Todo}) => {
     }
 
     const handleView = () => {
-        setModalIsOpen(true);
+        select(todo.id);
     }
 
     const handleRemove = async () => {

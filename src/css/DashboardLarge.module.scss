@@ -62,7 +62,8 @@
     display: flex;
     flex-direction: row;
     flex: 1;
-    
+        gap: 0.6rem;
+        
     .left {
         background-color: rgb(223, 253, 253);
         flex: 3;
