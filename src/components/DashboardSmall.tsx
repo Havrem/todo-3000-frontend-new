@@ -13,7 +13,7 @@ export const DashboardSmall = () => {
     const upcoming = todos
             .filter(todo => !todo.completed)
             .sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime())
-            .slice(0, 6);
+            .slice(0, 4);
 
     useEffect(() => {
         if (isError) {
@@ -68,6 +68,7 @@ export const DashboardSmall = () => {
                     </div>
                 </div>
                 <div className={styles.right}>
+                    <div className={styles.filler}></div>
                 </div>
             </div>
         </div>

@@ -1,7 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import styles from '../css/ProfileSmall.module.scss';
 import { useAuth } from '../hooks/useAuth';
-import flowers from '../assets/frogflower.png';
 
 export const ProfileSmall = () => {
     const { user, logout } = useAuth();
@@ -18,11 +17,12 @@ export const ProfileSmall = () => {
             <div className={styles.top}>
                 <img src={imageSrcUrl} className={styles.avatar}/>
                 <p className={styles.username}>{user?.email}</p>
-                <p>Edit functionality in progress.</p>
             </div>
-            <button className={styles.logout} onClick={handleLogout}>Logout</button>
-            <div className={styles.bottom}>
-                <img src={flowers} className={styles.flowers}/>
+                        <div className={styles.bottom}>
+                <div className={styles.filler}></div>
+            </div>
+            <div className={styles.mid}>
+                <button onClick={handleLogout} className={styles.logout}>Logout</button>
             </div>
         </div>
     );

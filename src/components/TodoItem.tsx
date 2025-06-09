@@ -6,14 +6,12 @@ import { NotCompleteIcon } from "./icon/NotCompleteIcon";
 import { useDeleteTodo, useUpdateTodo } from "../hooks/useTodos";
 import { toast } from "react-toastify";
 import type { UpdateTodoRequest } from "../types/api";
-import { EditTodoForm } from "./EditTodoForm";
-import { useState } from "react";
 import Modal from 'react-modal';
+import { EditIcon } from "./icon/EditIcon";
 
 Modal.setAppElement('#root');
 
-export const TodoItem = ({todo, select}:{todo:Todo, select: (todoId: number) => void}) => {
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todoId: number) => void, edit: (todo: Todo) => void}) => {
     const deleteTodo = useDeleteTodo();
     const updateTodo = useUpdateTodo();
 
@@ -26,8 +24,12 @@ export const TodoItem = ({todo, select}:{todo:Todo, select: (todoId: number) => 
         toast.success("Todo updated.")
     }
 
-    const handleView = () => {
+    const handleSelect = () => {
         select(todo.id);
+    }
+
+    const handleEdit = () => {
+        edit(todo);
     }
 
     const handleRemove = async () => {
@@ -45,7 +47,7 @@ export const TodoItem = ({todo, select}:{todo:Todo, select: (todoId: number) => 
                     <NotCompleteIcon width={30} height={30} fill='#000000'/>
                 </button>) 
             }
-            <button onClick={() => handleView()}>
+            <button onClick={() => handleSelect()}>
                 {todo.completed ? 
                     (
                         <p style={{textDecoration:'line-through', color:'gray'}}>{todo.title}</p>
@@ -55,17 +57,14 @@ export const TodoItem = ({todo, select}:{todo:Todo, select: (todoId: number) => 
                     )
                 }
             </button>
-            <button className={styles.remove} onClick={() => handleRemove()}>
-                <RemoveIcon width={30} height={30} stroke="black" fill="none"/>
-            </button>
-
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)}
-                className={styles.modalThing}
-            >
-                <EditTodoForm todo={todo} onCancel={() => setModalIsOpen(false)}/>
-            </Modal>
+            <div className={styles.left}>
+                <button onClick={handleEdit} className={styles.edit}>
+                    <EditIcon width={30} height={30} fill='none'/>
+                </button>
+                <button className={styles.remove} onClick={() => handleRemove()}>
+                    <RemoveIcon width={30} height={30} stroke="black" fill="none"/>
+                </button>
+            </div>
         </div>
     );
 }

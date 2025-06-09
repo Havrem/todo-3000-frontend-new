@@ -3,11 +3,13 @@ import { Footer } from "../components/Footer";
 import styles from '../css/ProtectedLayout.module.scss'
 import { useAuth } from '../hooks/useAuth';
 import { DotLoader } from 'react-spinners';
-import { Navbar } from '../components/Navbar';
-import { NavbarWeb } from '../components/NavbarWeb';
+import { useMediaQuery } from 'react-responsive';
+import { NavbarLarge } from '../components/NavbarLarge';
+import { NavbarSmall } from '../components/NavbarSmall';
 
 export const Protected = () => { 
     const {user, initializing} = useAuth();
+    const isDesktop = useMediaQuery({minWidth: 768});
 
     if (initializing) {
         return (
@@ -26,11 +28,10 @@ export const Protected = () => {
 
     return ( 
         <div className={styles.mainContainer}>
-            {/* <NavbarWeb/> */}
-            <NavbarWeb/>
+            {isDesktop && <NavbarLarge/>}
             <Outlet/>
-            <Navbar />
             <Footer/>
+            {!isDesktop && <NavbarSmall/>}
         </div>
     );
 }

@@ -68,6 +68,7 @@ export const DashboardLarge = () => {
                     </div>
                 </div>
                 <div className={styles.right}>
+                    <div className={styles.filler}></div>
                 </div>
             </div>
         </div>

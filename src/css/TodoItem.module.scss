@@ -1,31 +1,17 @@
 .mainContainer {
     // border: 1px solid blue;
     // width: 100%;
-    background-color: rgb(223, 253, 253);
+    // background-color: rgb(223, 253, 253);
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: 0.5rem;
     // padding-inline: 0.5rem;
     border-bottom: 0.05rem solid rgb(0, 0, 0);
     padding-block: 1rem;
     
-
-    button.remove {
+    .left {
         margin-left: auto;
-    }
-}
-
-.modalThing {
-    border: 0.05rem solid rgb(0, 0, 0);
-    background-color: #eefaf1;
-    margin: 1rem;
-    padding: 0.5rem;
-}
-
-@media(min-width: 768px) {
-    .modalThing {
-        // border: 40px solid rgb(255, 7, 89);
-        width: 40vw;
-        justify-self: center;
+        display: flex;
+        gap: 0.5rem;
     }
 }
