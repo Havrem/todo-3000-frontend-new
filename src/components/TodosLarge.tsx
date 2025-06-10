@@ -43,7 +43,7 @@ export const TodosLarge = () => {
                     <h2>Manage</h2>
                     <div className={styles.list}>
                         {todos.map(todo => (
-                            <TodoItem todo={todo} key={todo.id} select={setSelectedId} edit={(todo) => {
+                            <TodoItem todo={todo} key={todo.id} select={(todo) => setSelectedId(todo.id)} edit={(todo) => {
                                 setTodoToBeEdited(todo)
                                 setEditModalIsOpen(true)
                             }}/>
@@ -74,6 +74,7 @@ export const TodosLarge = () => {
                 isOpen={createModalIsOpen}
                 onRequestClose={() => setCreateModalIsOpen(false)}
                 className={styles.createModal}
+                overlayClassName={styles.modalOverlay}
             >
                 <CreateTodoForm onCancel={() => setCreateModalIsOpen(false)}/>
             </Modal>
@@ -82,6 +83,7 @@ export const TodosLarge = () => {
                 isOpen={editModalIsOpen}
                 onRequestClose={() => setEditModalIsOpen(false)}
                 className={styles.editModal}
+                overlayClassName={styles.modalOverlay}
             >
                 {todoToBeEdited && (
                     <EditTodoForm

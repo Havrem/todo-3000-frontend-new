@@ -18,10 +18,8 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
-    // margin-inline: 1rem;
     gap: 0.5rem;
     width: 100%;
-    // border: 1px solid red;
 
     button {
         cursor: pointer;
@@ -29,14 +27,12 @@
         border: 0.05rem solid rgb(0, 0, 0);
         padding: 0.7rem;
         background-color: rgb(221, 248, 208);
-        // border-radius: 0.5rem;
     }
 }
 
 .block {
     display: flex;
     flex-direction: column;
-    // margin-bottom: 1rem;
 
     p {
         margin: 0;
@@ -45,7 +41,6 @@
     }
 
     input {
-        // margin-bottom: 1rem;
         padding: 0.5rem;
     }
 

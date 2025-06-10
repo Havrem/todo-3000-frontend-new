@@ -30,7 +30,7 @@ export const Protected = () => {
         <div className={styles.mainContainer}>
             {isDesktop && <NavbarLarge/>}
             <Outlet/>
-            <Footer/>
+            {isDesktop && <Footer/>}
             {!isDesktop && <NavbarSmall/>}
         </div>
     );

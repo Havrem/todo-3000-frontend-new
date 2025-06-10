@@ -4,7 +4,7 @@
     flex-direction: column;
     flex: 1;
     width: 100vw;
-    overflow-y: auto;
+    // overflow-y: auto;
     padding: 0.6rem;
     gap: 0.6rem;
 }
@@ -62,19 +62,23 @@
     display: flex;
     flex-direction: row;
     flex: 1;
-        gap: 0.6rem;
+    gap: 0.6rem;
+    overflow: hidden;
         
     .left {
         background-color: rgb(223, 253, 236);
         flex: 3;
         display: flex;
         padding: 1rem;
+        overflow: auto;
 
         .upcoming {
             display: flex;
             flex-direction: column;
             flex: 1;
             gap: 1rem;
+            background-color: rgb(223, 253, 253);
+            height: fit-content;
 
             h2 {
                 border-bottom: 0.06rem solid black;

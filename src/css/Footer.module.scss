@@ -1,20 +1,8 @@
 .mainContainer {
     text-align: center;
-    color: rgb(249, 248, 248);
-    // border: 2px solid rgb(255, 238, 0);
     background-color: rgb(223, 253, 253);
     margin-top: auto;
-    // border-top: 0.05rem solid white;
-    display: none;
     width: 100%;
-    color:black;
     border-top: 0.5rem solid rgb(150, 207, 138);
     padding: 1rem;
-}
-
-@media(min-width: 768px) {
-    .mainContainer {
-        display: block;
-        // margin-top: 5%;
-    }
 }

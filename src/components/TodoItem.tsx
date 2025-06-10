@@ -11,7 +11,7 @@ import { EditIcon } from "./icon/EditIcon";
 
 Modal.setAppElement('#root');
 
-export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todoId: number) => void, edit: (todo: Todo) => void}) => {
+export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) => void, edit: (todo: Todo) => void}) => {
     const deleteTodo = useDeleteTodo();
     const updateTodo = useUpdateTodo();
 
@@ -25,7 +25,7 @@ export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todoId: numbe
     }
 
     const handleSelect = () => {
-        select(todo.id);
+        select(todo);
     }
 
     const handleEdit = () => {
