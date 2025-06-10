@@ -6,9 +6,10 @@ import type { Todo } from '../types/todo';
 import Modal from 'react-modal';
 import { CreateTodoForm } from './CreateTodoForm';
 import { EditTodoForm } from './EditTodoForm';
+import { PuffLoader } from 'react-spinners';
 
 export const TodosLarge = () => {
-    const { data: todos = [] } = useTodos();
+    const { data: todos = [], isLoading } = useTodos();
     const [createModalIsOpen, setCreateModalIsOpen] = useState<boolean>(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false);
     const [todoToBeEdited, setTodoToBeEdited] = useState<Todo | null>(null);
@@ -20,15 +21,24 @@ export const TodosLarge = () => {
     }
 
     useEffect(() => {
-  if (todos.length === 0) {
-    setSelectedId(null);
-    return;
-  }
+        if (todos.length === 0) {
+            setSelectedId(null);
+            return;
+        }
 
-  if (!selected) {
-    setSelectedId(todos[0].id);
-  }
-}, [todos]);
+        if (!selected) {
+            setSelectedId(todos[0].id);
+        }
+    }, [todos]);
+
+    if (isLoading) return (
+        <div className={styles.spinner}>
+            <PuffLoader
+                color="#36d7b7"
+                size={200}
+            />
+        </div>
+    );
 
 
     return (
