@@ -9,18 +9,18 @@ interface FormInput {
     password: string;
 }
 
-export const LoginFormLarge = () => {
+export const RegisterFormLarge = () => {
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<FormInput>();
-    const {login} = useAuth();
+    const {register: registerUser} = useAuth();
     const navigate = useNavigate();
 
     const onSubmit = async (data: FormInput) => {
         try {
-            await login(data.email, data.password);
+            await registerUser(data.email, data.password);
             navigate({to : "/dashboard"});
         } catch (err) {
-            console.warn("Login failed", err);
-            toast.error("Login failed. Please check your credentials.")
+            console.warn("Register failed", err);
+            toast.error("Register failed. Please check your credentials.")
         }
     }
 
@@ -30,7 +30,7 @@ export const LoginFormLarge = () => {
                 <div className={styles.block}>
                     <div className={styles.top}>
                         <label>Email</label>
-                        <input {...register("email", {required: "Email address is required", pattern: {value:/^\S+@\S+\.\S+$/, message:"Invalid email format"}})} placeholder="Enter your email..."/>
+                        <input {...register("email", {required: "Email address is required", pattern: {value:/^\S+@\S+\.\S+$/, message:"Invalid email format"}})} placeholder="Enter an email..."/>
                     </div>
                     <div className={styles.error}>
                         {errors.email && <p>{errors.email.message}</p>}
@@ -40,7 +40,7 @@ export const LoginFormLarge = () => {
                 <div className={styles.block}>
                     <div className={styles.top}>
                         <label>Password</label>
-                        <input type="password" {...register("password", {required: "Password is required"})} placeholder="Enter your password..."/>
+                        <input type="password" {...register("password", {required: "Password is required"})} placeholder="Enter a password..."/>
                     </div>
                     <div className={styles.error}>
                         {errors.password && <p>{errors.password.message}</p>}
@@ -48,7 +48,7 @@ export const LoginFormLarge = () => {
                 </div>
             </div>
 
-            <button type="submit" disabled={isSubmitting}>Login</button>
+            <button type="submit" disabled={isSubmitting}>Register</button>
         </form>
     );
 }

@@ -1,8 +1,8 @@
 import { useNavigate } from '@tanstack/react-router';
-import styles from '../css/LoginLarge.module.scss';
-import { LoginFormLarge } from './auth/LoginFormLarge';
+import styles from '../css/RegisterLarge.module.scss';
+import { RegisterFormLarge } from './auth/RegisterFormLarge';
 
-export const LoginLarge = () => {
+export const RegisterLarge = () => {
     const navigate = useNavigate();
 
     return (
@@ -12,8 +12,8 @@ export const LoginLarge = () => {
                 <p>Whenever - wherever</p>
             </div>
             <div className={styles.bottom}>
-                <LoginFormLarge/>
-                <button className={styles.switchBtn} onClick={() => navigate({to:'/register'})}>Don't have an account yet? Register!</button>
+                <RegisterFormLarge/>
+                <button className={styles.switchBtn} onClick={() => navigate({to:'/login'})}>Already have an account? Login!</button>
             </div>
         </div>
     );

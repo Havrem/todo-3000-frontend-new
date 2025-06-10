@@ -40,9 +40,9 @@ export const LoginFormSmall = () => {
                 <div className={styles.block}>
                     <div className={styles.top}>
                         <label>Password</label>
-                        <input {...register("password", {required: "Password is required"})} placeholder="Enter your password..."/>
+                        <input type="password" {...register("password", {required: "Password is required"})} placeholder="Enter your password..."/>
                     </div>
-                                        <div className={styles.error}>
+                    <div className={styles.error}>
                         {errors.password && <p>{errors.password.message}</p>}
                     </div>
                 </div>
