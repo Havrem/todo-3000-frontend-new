@@ -4,7 +4,6 @@ import { useTodos } from '../hooks/useTodos';
 import { toast } from 'react-toastify';
 import { PuffLoader } from 'react-spinners';
 import dayjs from 'dayjs';
-import flowers from '../assets/flowers.png';
 import { useAuth } from '../hooks/useAuth';
 
 export const DashboardLarge = () => {
@@ -14,7 +13,7 @@ export const DashboardLarge = () => {
     const upcoming = todos
             .filter(todo => !todo.completed)
             .sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime())
-            .slice(0, 4);
+            .slice(0, 6);
 
     useEffect(() => {
         if (isError) {
@@ -39,21 +38,22 @@ export const DashboardLarge = () => {
             <div className={styles.top}>
                 <img src={imageSrcUrl} className={styles.avatar}/>
                 <div className={styles.right}>
-                    <p>Completed: {completed}</p>
-                    <p>Remaining: {remaining}</p>
+                    <h2>Statistic</h2>
+                    <div className={styles.statistic}>
+                        <p>Completed: {completed}</p>
+                        <p>Remaining: {remaining}</p>
+                    </div>
                 </div>
             </div>
 
             <div className={styles.bottom}>
                 <div className={styles.left}>
                     <div className={styles.upcoming}>
-                        <label>Upcoming</label>
+                        <h2>Upcoming</h2>
 
-                        {upcoming.length == 0 ? 
-                        (
-                            <p></p>
-                        ) :
-                        (
+                        {upcoming.length === 0 ? (
+                            <p>No upcoming tasks.</p>
+                        ) : (
                             <div className={styles.list}>
                             {upcoming.map((todo) => {
                                 return (
@@ -68,7 +68,7 @@ export const DashboardLarge = () => {
                     </div>
                 </div>
                 <div className={styles.right}>
-                    <img src={flowers} className={styles.flowers}/>
+                    <div className={styles.filler}></div>
                 </div>
             </div>
         </div>

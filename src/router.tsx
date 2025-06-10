@@ -74,7 +74,7 @@ const profileRoute = createRoute({
     component: Profile
 });
 
-export const routeTree = rootRoute.addChildren([
+const routeTree = rootRoute.addChildren([
     publicRoute.addChildren([loginRoute, registerRoute, homeRoute]),
     protectedRoute.addChildren([dashboardRoute, todosRoute, profileRoute])
 ]);

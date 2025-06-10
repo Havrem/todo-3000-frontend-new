@@ -1,15 +1,11 @@
-import { Link } from '@tanstack/react-router';
-import { AuthHeader } from '../components/auth/AuthHeader'
-import { LoginForm } from '../components/auth/LoginForm'
-import styles from '../css/Login.module.scss'
+import { useMediaQuery } from 'react-responsive';
+import { LoginLarge } from '../components/LoginLarge';
+import { LoginSmall } from '../components/LoginSmall';
 
 export const Login = () => {
+    const isDesktop = useMediaQuery({minWidth: 768});
+
     return (
-        <div className={styles.mainContainer}>
-            <AuthHeader/>
-            <LoginForm/>
-            <Link to="/register">Don't have an account yet? Signup!</Link>
-            <div className={styles.divider}/>
-        </div>
+        isDesktop ? <LoginLarge/> : <LoginSmall/>
     );
 }
