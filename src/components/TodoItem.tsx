@@ -1,15 +1,14 @@
-import type { Todo } from "../types/todo";
+import type { Todo, UpdateTodoRequest } from '../schemas/todo.schema';
 import styles from '../css/TodoItem.module.scss'
 import { RemoveIcon } from "./icon/RemoveIcon";
 import { CompleteIcon } from "./icon/CompleteIcon";
 import { NotCompleteIcon } from "./icon/NotCompleteIcon";
 import { useDeleteTodo, useUpdateTodo } from "../hooks/useTodos";
 import { toast } from "react-toastify";
-import type { UpdateTodoRequest } from "../types/api";
-import Modal from 'react-modal';
 import { EditIcon } from "./icon/EditIcon";
+import { ZodError } from 'zod/v4';
+import { ApiError } from '../utils/ApiError';
 
-Modal.setAppElement('#root');
 
 export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) => void, edit: (todo: Todo) => void}) => {
     const deleteTodo = useDeleteTodo();
@@ -20,8 +19,19 @@ export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) =
             completed: !todo.completed
         }
 
-        await updateTodo.mutateAsync({id: todo.id, data: updateRequest});
-        toast.success("Todo updated.")
+        try {
+            await updateTodo.mutateAsync({id: todo.id, data: updateRequest});
+            toast.success("Todo updated.")
+        } catch (error) {
+            if (error instanceof ZodError) {
+                toast.warn('Something went wrong while trying to update a todo!');
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
+        }
     }
 
     const handleSelect = () => {
@@ -33,8 +43,19 @@ export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) =
     }
 
     const handleRemove = async () => {
-        await deleteTodo.mutateAsync(todo.id);
-        toast.success("Todo removed.")
+        try {
+            await deleteTodo.mutateAsync(todo.id);
+            toast.success("Todo removed.")
+        } catch (error) {
+            if (error instanceof ZodError) {
+                toast.warn('Something went wrong while trying to remove a todo!');
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
+        }
     }
 
     return (
@@ -51,8 +72,7 @@ export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) =
                 {todo.completed ? 
                     (
                         <p style={{textDecoration:'line-through', color:'gray'}}>{todo.title}</p>
-                    ) : 
-                    (
+                    ) : (
                         <p>{todo.title}</p>
                     )
                 }

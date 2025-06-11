@@ -2,23 +2,39 @@ import { useEffect, useState } from 'react';
 import styles from '../css/TodosSmall.module.scss';
 import { useTodos } from '../hooks/useTodos';
 import { TodoItem } from './TodoItem';
-import type { Todo } from '../types/todo';
+import type { Todo } from '../schemas/todo.schema';
 import Modal from 'react-modal';
 import { CreateTodoForm } from './CreateTodoForm';
 import { EditTodoForm } from './EditTodoForm';
 import { TodoDetails } from './TodoDetails';
 import { PuffLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import { ZodError } from 'zod/v4';
+import { ApiError } from '../utils/ApiError';
 
 Modal.setAppElement('#root');
 
 export const TodosSmall = () => {
-    const { data: todos = [], isLoading } = useTodos();
+    const { data: todos = [], isLoading, error } = useTodos();
     const [createModalIsOpen, setCreateModalIsOpen] = useState<boolean>(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false);
     const [detailsModalIsOpen, setDetailsModalIsOpen] = useState<boolean>(false);
     const [todoToBeEdited, setTodoToBeEdited] = useState<Todo | null>(null);
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const selected = todos.find(t => t.id === selectedId) ?? null;
+
+    useEffect(() => {
+        if (error) {
+            toast.warn('Something went wrong while retrieving todos!');
+            if (error instanceof ZodError) {
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
+        }
+    }, [error])
 
     const handleAdd = () => {
         setCreateModalIsOpen(true);
@@ -43,6 +59,17 @@ export const TodosSmall = () => {
             />
         </div>
     );
+
+    if (error) {
+        if (error instanceof ZodError) {
+            toast.warn('Something went wrong while retrieving todos!');
+            console.error('Unexpected type in apiresponse. Zod parsing failed.')
+        } else if (error instanceof ApiError) {
+            console.warn('Something went wrong.', error);
+        } else {
+            console.warn('Something went wrong', error);
+        }
+    }
 
 
     return (

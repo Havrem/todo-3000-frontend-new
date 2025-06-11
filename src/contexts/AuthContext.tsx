@@ -1,10 +1,18 @@
 import { createContext, useEffect, useState } from "react";
-import type { AuthContextType } from "../types/auth";
 import type { ReactNode } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
 import { auth } from "../services/firebaseService";
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined); //Creates an empty box that contained AuthContextType or undefined. It will be undefined if authcontext is called outside of an authprovider, as it is the authprovider that sets the value for the authcontext in its return.
+export interface AuthContextValue{
+    user: User | null;
+    initializing: boolean;
+    loggingIn: boolean;
+    login: (email: string, password: string) => Promise<void>;
+    logout: () => Promise<void>;
+    register: (email: string, password: string) => Promise<void>;
+}
+
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined); //Creates an empty box that contained AuthContextType or undefined. It will be undefined if authcontext is called outside of an authprovider, as it is the authprovider that sets the value for the authcontext in its return.
 
 export const AuthProvider = ({children}:{children: ReactNode}) => { //Components that are wrapped in this will have access to all the properties and functions.
     const [user, setUser] = useState<User|null>(null);
@@ -24,7 +32,7 @@ export const AuthProvider = ({children}:{children: ReactNode}) => { //Components
         try {
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
-            console.warn("Login failed", error);
+            console.warn("Login failed.", error);
             throw error;
         } finally {
             setLoggingIn(false);
@@ -32,12 +40,22 @@ export const AuthProvider = ({children}:{children: ReactNode}) => { //Components
     }
 
     const logout = async () => {
-        await signOut(auth);
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.warn("Logout failed.", error);
+            throw error;
+        }
     }
 
     const register = async (email: string, password: string): Promise<void> => {
-        await createUserWithEmailAndPassword(auth, email, password);
-    };
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.warn("Registration failed.", error);
+            throw error;
+        }
+    }
 
     const authContextValue = { //The object given to callers calling useContext(AuthContext) inside the authcontext provider tree.
         user,

@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import styles from '../css/CreateTodoForm.module.scss';
 import { toast } from "react-toastify";
 import { useUpdateTodo } from "../hooks/useTodos";
-import type { UpdateTodoRequest } from "../types/api";
-import type { Todo } from "../types/todo";
+import type { UpdateTodoRequest, Todo } from '../schemas/todo.schema';
+import { ZodError } from "zod/v4";
+import { ApiError } from "../utils/ApiError";
 
 interface EditTodoFormProps {
     onCancel: () => void;
@@ -17,11 +18,17 @@ export const EditTodoForm = ({onCancel, todo}:EditTodoFormProps) => {
     const onSubmit = async (data: UpdateTodoRequest) => {
         try {
             await updateTodo.mutateAsync({id: todo.id, data: data});
-            toast.success("Todo updated.")
+            toast.success("Todo updated.");
             onCancel();
-        } catch (err) {
-            console.warn("Update todo failed.", err);
-            toast.error("Update todo failed.")
+        } catch (error) {
+            if (error instanceof ZodError) {
+                toast.warn('Something went wrong while trying to edit a todo!');
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
         }
     }
 
@@ -43,12 +50,12 @@ export const EditTodoForm = ({onCancel, todo}:EditTodoFormProps) => {
 
             <div className={styles.block}>
                 <label>Due</label>
-                <input defaultValue={todo.due} type="date" {...register("due", {pattern:{value:/^\d{4}-\d{2}-\d{2}$/, message:"Date must be in YYYY-MM-DD format"}})}/>
+                <input defaultValue={todo.due.format('YYYY-MM-DD')} type="date" {...register("due", {pattern:{value:/^\d{4}-\d{2}-\d{2}$/, message:"Date must be in YYYY-MM-DD format"}})}/>
                 {errors.due && <p>{errors.due.message}</p>}
             </div>
 
             <button type="submit" disabled={isSubmitting} className={styles.add}>Update</button>
-            <button disabled={isSubmitting} className={styles.cancel} onClick={() => onCancel()}>Cancel</button>
+            <button type="button" disabled={isSubmitting} className={styles.cancel} onClick={() => onCancel()}>Cancel</button>
         </form>
     );
 }

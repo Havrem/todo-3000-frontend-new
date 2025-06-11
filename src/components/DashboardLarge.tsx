@@ -5,21 +5,30 @@ import { toast } from 'react-toastify';
 import { PuffLoader } from 'react-spinners';
 import dayjs from 'dayjs';
 import { useAuth } from '../hooks/useAuth';
+import { ZodError } from 'zod/v4';
+import { ApiError } from '../utils/ApiError';
 
 export const DashboardLarge = () => {
     const { user } = useAuth();
     const imageSrcUrl = user?.photoURL || '/avatars/elephant.png';
-    const {data: todos = [], isLoading, isError} = useTodos();
+    const {data: todos = [], isLoading, error} = useTodos();
     const upcoming = todos
             .filter(todo => !todo.completed)
-            .sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime())
+            .sort((a, b) => a.due.valueOf() - b.due.valueOf())
             .slice(0, 6);
 
     useEffect(() => {
-        if (isError) {
-            toast.error("Something went wrong!");
+        if (error) {
+            toast.warn('Something went wrong while retrieving todos!');
+            if (error instanceof ZodError) {
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
         }
-    }, [isError])
+    }, [error])
 
     if (isLoading) return (
         <div className={styles.spinner}>

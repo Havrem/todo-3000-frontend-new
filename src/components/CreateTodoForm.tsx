@@ -2,7 +2,9 @@ import { useForm } from "react-hook-form";
 import styles from '../css/CreateTodoForm.module.scss';
 import { toast } from "react-toastify";
 import { useCreateTodo } from "../hooks/useTodos";
-import type { CreateTodoRequest } from "../types/api";
+import type { CreateTodoRequest } from '../schemas/todo.schema';
+import { ZodError } from "zod/v4";
+import { ApiError } from "../utils/ApiError";
 
 interface CreateTodoFormProps {
     onCancel: () => void;
@@ -17,9 +19,15 @@ export const CreateTodoForm = ({onCancel}:CreateTodoFormProps) => {
             await createTodo.mutateAsync(data);
             toast.success("Todo created.")
             onCancel();
-        } catch (err) {
-            console.warn("Create todo failed.", err);
-            toast.error("Create todo failed.")
+        } catch (error) {
+            if (error instanceof ZodError) {
+                toast.warn('Something went wrong while trying to create a todo!');
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
         }
     }
 
@@ -46,7 +54,7 @@ export const CreateTodoForm = ({onCancel}:CreateTodoFormProps) => {
             </div>
 
             <button type="submit" disabled={isSubmitting} className={styles.add}>Add</button>
-            <button disabled={isSubmitting} className={styles.cancel} onClick={() => onCancel()}>Cancel</button>
+            <button type="button" disabled={isSubmitting} className={styles.cancel} onClick={() => onCancel()}>Cancel</button>
         </form>
     );
 }

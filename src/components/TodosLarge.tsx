@@ -2,19 +2,35 @@ import { useEffect, useState } from 'react';
 import styles from '../css/TodosLarge.module.scss';
 import { useTodos } from '../hooks/useTodos';
 import { TodoItem } from './TodoItem';
-import type { Todo } from '../types/todo';
+import type { Todo } from '../schemas/todo.schema';
 import Modal from 'react-modal';
 import { CreateTodoForm } from './CreateTodoForm';
 import { EditTodoForm } from './EditTodoForm';
 import { PuffLoader } from 'react-spinners';
+import { ZodError } from 'zod/v4';
+import { toast } from 'react-toastify';
+import { ApiError } from '../utils/ApiError';
 
 export const TodosLarge = () => {
-    const { data: todos = [], isLoading } = useTodos();
+    const { data: todos = [], isLoading, error } = useTodos();
     const [createModalIsOpen, setCreateModalIsOpen] = useState<boolean>(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false);
     const [todoToBeEdited, setTodoToBeEdited] = useState<Todo | null>(null);
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const selected = todos.find(t => t.id === selectedId) ?? null;
+
+    useEffect(() => {
+        if (error) {
+            toast.warn('Something went wrong while retrieving todos!');
+            if (error instanceof ZodError) {
+                console.error('Unexpected type in apiresponse. Zod parsing failed.')
+            } else if (error instanceof ApiError) {
+                console.warn('Something went wrong.', error);
+            } else {
+                console.warn('Something went wrong', error);
+            }
+        }
+    }, [error])
 
     const handleAdd = () => {
         setCreateModalIsOpen(true);
@@ -39,7 +55,6 @@ export const TodosLarge = () => {
             />
         </div>
     );
-
 
     return (
         <div className={styles.mainContainer}>
@@ -67,7 +82,7 @@ export const TodosLarge = () => {
                         <div className={styles.info}>
                             <p>Title: <span>{selected.title}</span></p>
                             <p>Description: <span>{selected.description}</span></p>
-                            <p>Due: <span>{selected.due}</span></p>
+                            <p>Due: <span>{selected.due.format('YYYY MM DD')}</span></p>
                             <p>Status: <span> {selected.completed ? "Done" : "Not done"}</span></p>
                             
                         </div>
