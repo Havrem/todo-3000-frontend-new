@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: "todo-261f9",
   storageBucket: "todo-261f9.firebasestorage.app",
   messagingSenderId: "698661463861",
-  appId: "1:698661463861:web:24f2b26de997cf1a284e7c"
+  appId: "1:698661463861:web:24f2b26de997cf1a284e7c",
 };
 
 // Initialize Firebase from the config, can then access services by supplying them with the app-object.

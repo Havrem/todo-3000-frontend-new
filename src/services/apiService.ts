@@ -1,84 +1,114 @@
+import type { ZodType } from "zod/v4";
+import { z } from "zod/v4";
+import { errorResponseSchema } from "@schemas/api.schema";
+import { ApiError } from "@utils/ApiError";
 import { auth } from "./firebaseService";
-import { isErrorResponse } from "../utils/guards";
-import { ApiError } from "../errors/error";
+import { AppError } from "@utils/AppError";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-//Takes in a path and a config object. In the config object the method, headers and body is defined. Requestinit is an object supplied/defined from Typescript itself, provides compile-time type-checking for objects being passed to the function.
 async function request<T>(
   path: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  schema: ZodType<T>,
 ): Promise<T> {
   const token = await auth.currentUser?.getIdToken();
 
-  //Creates a javascript object with this as a property. HeadersInit allows plain objects as long as both key and values is string type?
   const headers: HeadersInit = {
-    ... (options.method !== "GET" && {"Content-Type" : 'application/json'}), //Need === instead of == to compare value AND type.
-    ... (token &&  {"Authorization": `Bearer ${token}`}),
-    ...options.headers
-  }
+    ...(options.method !== "GET" && { "Content-Type": "application/json" }),
+    ...(token && { Authorization: `Bearer ${token}` }),
+    ...options.headers,
+  };
 
-  try { //Fetch might throw errors before it hits the backend which would cause code not to reach !res.ok, so there needs to be a two bucket system.
+  try {
     const res = await fetch(`${BASE_URL}${path}`, {
       ...options, //Method, body etc...
-      headers
+      headers,
     });
-    const text = await res.text();
-    let data: T | null = null;
+
+    let data: unknown;
+
+    if (res.status === 204) {
+      data = undefined;
+      return schema.parse(data);
+    }
 
     try {
-      data = text ? JSON.parse(text) : null;
-    } catch {
-      data = null;
-    }
-    
-    if (!res.ok) {
-      if(isErrorResponse(data)) {
-        throw new ApiError(data);
-      } else {
-        throw new Error("Unexpected error response"); //TODO: These errors are not being caught and handled by caller properly.
-      }
+      data = await res.json();
+    } catch (err) {
+      throw new AppError({
+        message: "Error formatting response to json.",
+        cause: err,
+      });
     }
 
-    return data as T;
-  } catch (err) {
-    if (err instanceof ApiError) {
-      throw err;
-    } else {
-      throw new Error("Unknown error");
+    if (!res.ok) {
+      const errorResponse = errorResponseSchema.parse(data);
+      throw new ApiError(errorResponse);
     }
+
+    return schema.parse(data);
+  } catch (err) {
+    if (
+      err instanceof z.ZodError ||
+      err instanceof ApiError ||
+      err instanceof Error
+    ) {
+      throw err;
+    }
+
+    throw new AppError({
+      message: "Unknown error during request.",
+      cause: err,
+    });
   }
 }
 
-function get<T>(path: string): Promise<T[]> {
-  return request(path, {
-    method: "GET"
-  });
+function get<T>(path: string, schema: ZodType<T[]>): Promise<T[]> {
+  return request(
+    path,
+    {
+      method: "GET",
+    },
+    schema,
+  );
 }
 
-function post<T>(path: string, body: unknown): Promise<T> {
-  return request(path, {
-    method: "POST",
-    body: JSON.stringify(body)
-  });
+function post<T>(path: string, body: unknown, schema: ZodType<T>): Promise<T> {
+  return request(
+    path,
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    },
+    schema,
+  );
 }
 
-function put<T>(path: string, body: unknown): Promise<T> {
-  return request(path, {
-    method: "PUT",
-    body: JSON.stringify(body)
-  });
+function put<T>(path: string, body: unknown, schema: ZodType<T>): Promise<T> {
+  return request(
+    path,
+    {
+      method: "PUT",
+      body: JSON.stringify(body),
+    },
+    schema,
+  );
 }
 
 function del(path: string): Promise<void> {
-  return request(path, {
-    method: "DELETE",
-  });
+  return request(
+    path,
+    {
+      method: "DELETE",
+    },
+    z.undefined(),
+  );
 }
 
 export const apiService = {
   get,
   post,
   put,
-  del
-}
+  del,
+};
