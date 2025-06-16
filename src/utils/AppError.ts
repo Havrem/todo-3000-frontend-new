@@ -1,8 +1,8 @@
 export class AppError extends Error {
-    public cause?: unknown;
+  public cause?: unknown;
 
-    constructor({message, cause}:{message: string, cause?: unknown}) {
-        super(message);
-        this.cause = cause;
-    }
+  constructor({ message, cause }: { message: string; cause?: unknown }) {
+    super(message);
+    this.cause = cause;
+  }
 }

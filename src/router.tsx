@@ -1,4 +1,9 @@
-import { createRootRoute, createRoute, createRouter, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+} from "@tanstack/react-router";
 import { Background } from "./layouts/Background";
 import { Public } from "./layouts/Public";
 import { Login } from "./pages/Login";
@@ -11,72 +16,72 @@ import { Profile } from "./pages/Profile";
 import { Register } from "./pages/Register";
 
 const rootRoute = createRootRoute({
-    component: () => (
-        <>
-            <ToastContainer
-                position='top-right'
-                autoClose={3000}
-                style={{padding:"0.5rem"}}
-                transition={Bounce}
-            />
-            <Background>
-                <Outlet/>
-            </Background>
-        </>
-    )
+  component: () => (
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        style={{ padding: "0.5rem" }}
+        transition={Bounce}
+      />
+      <Background>
+        <Outlet />
+      </Background>
+    </>
+  ),
 });
 
 const publicRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    id: 'public',
-    component: Public
+  getParentRoute: () => rootRoute,
+  id: "public",
+  component: Public,
 });
 
 const protectedRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    id: 'protected',
-    component: Protected
-})
+  getParentRoute: () => rootRoute,
+  id: "protected",
+  component: Protected,
+});
 
 const homeRoute = createRoute({
   getParentRoute: () => publicRoute,
-  path: '/',
-  component: Login
+  path: "/",
+  component: Login,
 });
 
 const loginRoute = createRoute({
-    getParentRoute: () => publicRoute,
-    path: '/login',
-    component: Login
+  getParentRoute: () => publicRoute,
+  path: "/login",
+  component: Login,
 });
 
 const registerRoute = createRoute({
-    getParentRoute: () => publicRoute,
-    path: '/register',
-    component: Register
+  getParentRoute: () => publicRoute,
+  path: "/register",
+  component: Register,
 });
 
 const dashboardRoute = createRoute({
-    getParentRoute: () => protectedRoute,
-    path: '/dashboard',
-    component: Dashboard
-})
+  getParentRoute: () => protectedRoute,
+  path: "/dashboard",
+  component: Dashboard,
+});
 
 const todosRoute = createRoute({
-    getParentRoute: () => protectedRoute,
-    path: '/todos',
-    component: Todos
+  getParentRoute: () => protectedRoute,
+  path: "/todos",
+  component: Todos,
 });
 
 const profileRoute = createRoute({
-    getParentRoute: () => protectedRoute,
-    path: '/profile',
-    component: Profile
+  getParentRoute: () => protectedRoute,
+  path: "/profile",
+  component: Profile,
 });
 
 const routeTree = rootRoute.addChildren([
-    publicRoute.addChildren([loginRoute, registerRoute, homeRoute]),
-    protectedRoute.addChildren([dashboardRoute, todosRoute, profileRoute])
+  publicRoute.addChildren([loginRoute, registerRoute, homeRoute]),
+  protectedRoute.addChildren([dashboardRoute, todosRoute, profileRoute]),
 ]);
 
-export const router = createRouter({routeTree});
+export const router = createRouter({ routeTree });
