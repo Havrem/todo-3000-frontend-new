@@ -1,5 +1,5 @@
 import { Outlet } from '@tanstack/react-router';
-import { Footer } from "../components/Footer";
+import { Footer } from "../components/shared/Footer";
 import styles from '../css/PublicLayout.module.scss'
 import { useMediaQuery } from 'react-responsive';
 

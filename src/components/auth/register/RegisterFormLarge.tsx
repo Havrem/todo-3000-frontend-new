@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import styles from '../../css/RegisterFormSmall.module.scss';
-import { useAuth } from "../../hooks/useAuth";
+import styles from '../../css/LoginFormLarge.module.scss';
+import { useAuth } from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -9,7 +9,7 @@ interface FormInput {
     password: string;
 }
 
-export const RegisterFormSmall = () => {
+export const RegisterFormLarge = () => {
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<FormInput>();
     const {register: registerUser} = useAuth();
     const navigate = useNavigate();

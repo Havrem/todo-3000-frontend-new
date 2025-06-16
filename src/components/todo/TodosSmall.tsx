@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
-import styles from '../css/TodosLarge.module.scss';
-import { useTodos } from '../hooks/useTodos';
+import styles from '../css/TodosSmall.module.scss';
+import { useTodos } from '../../hooks/useTodos';
 import { TodoItem } from './TodoItem';
-import type { Todo } from '../schemas/todo.schema';
+import type { Todo } from '../../schemas/todo.schema';
 import Modal from 'react-modal';
-import { CreateTodoForm } from './CreateTodoForm';
-import { EditTodoForm } from './EditTodoForm';
+import { CreateTodoForm } from './forms/CreateTodoForm';
+import { EditTodoForm } from './forms/EditTodoForm';
+import { TodoDetails } from '../dashboard/TodoDetails';
 import { PuffLoader } from 'react-spinners';
-import { ZodError } from 'zod/v4';
 import { toast } from 'react-toastify';
-import { ApiError } from '../utils/ApiError';
+import { ZodError } from 'zod/v4';
+import { ApiError } from '../../utils/ApiError';
+import { AppError } from '../../utils/AppError';
 
-export const TodosLarge = () => {
+Modal.setAppElement('#root');
+
+export const TodosSmall = () => {
     const { data: todos = [], isLoading, error } = useTodos();
     const [createModalIsOpen, setCreateModalIsOpen] = useState<boolean>(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false);
+    const [detailsModalIsOpen, setDetailsModalIsOpen] = useState<boolean>(false);
     const [todoToBeEdited, setTodoToBeEdited] = useState<Todo | null>(null);
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const selected = todos.find(t => t.id === selectedId) ?? null;
@@ -26,6 +31,8 @@ export const TodosLarge = () => {
                 console.error('Unexpected type in apiresponse. Zod parsing failed.')
             } else if (error instanceof ApiError) {
                 console.warn('Something went wrong.', error);
+            } else if (error instanceof AppError) {
+                console.warn(error.message, error.cause);
             } else {
                 console.warn('Something went wrong', error);
             }
@@ -45,7 +52,7 @@ export const TodosLarge = () => {
         if (!selected) {
             setSelectedId(todos[0].id);
         }
-    }, [todos]);
+    }, [todos, selected]);
 
     if (isLoading) return (
         <div className={styles.spinner}>
@@ -55,6 +62,18 @@ export const TodosLarge = () => {
             />
         </div>
     );
+
+    if (error) {
+        if (error instanceof ZodError) {
+            toast.warn('Something went wrong while retrieving todos!');
+            console.error('Unexpected type in apiresponse. Zod parsing failed.')
+        } else if (error instanceof ApiError) {
+            console.warn('Something went wrong.', error);
+        } else {
+            console.warn('Something went wrong', error);
+        }
+    }
+
 
     return (
         <div className={styles.mainContainer}>
@@ -68,29 +87,14 @@ export const TodosLarge = () => {
                     <h2>Manage</h2>
                     <div className={styles.list}>
                         {todos.map(todo => (
-                            <TodoItem todo={todo} key={todo.id} select={(todo) => setSelectedId(todo.id)} edit={(todo) => {
-                                setTodoToBeEdited(todo)
-                                setEditModalIsOpen(true)
+                            <TodoItem todo={todo} key={todo.id} select={(todo) => {
+                                setSelectedId(todo.id);
+                                setDetailsModalIsOpen(true);
+                            }} edit={(todo) => {
+                                setTodoToBeEdited(todo);
+                                setEditModalIsOpen(true);
                             }}/>
                         ))}
-                    </div>
-                </div>
-
-                <div className={styles.right}>
-                    <h2>Details</h2>
-                    {selected ? (
-                        <div className={styles.info}>
-                            <p>Title: <span>{selected.title}</span></p>
-                            <p>Description: <span>{selected.description}</span></p>
-                            <p>Due: <span>{selected.due.format('YYYY MM DD')}</span></p>
-                            <p>Status: <span> {selected.completed ? "Done" : "Not done"}</span></p>
-                            
-                        </div>
-                        ) : (
-                            <div className={styles.info}><p>Select a todo to view details.</p></div>
-                    )}
-                    <div className={styles.filler}>
-
                     </div>
                 </div>
             </div>
@@ -119,6 +123,15 @@ export const TodosLarge = () => {
                         }}
                     />
                 )}
+            </Modal>
+
+            <Modal
+                isOpen={detailsModalIsOpen}
+                onRequestClose={() => setDetailsModalIsOpen(false)}
+                className={styles.detailsModal}
+                overlayClassName={styles.modalOverlay}
+            >
+                {selected && <TodoDetails todo={selected}/>}
             </Modal>
         </div>
     );

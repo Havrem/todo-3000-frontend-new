@@ -1,11 +1,11 @@
 import { Navigate, Outlet } from '@tanstack/react-router';
-import { Footer } from "../components/Footer";
+import { Footer } from "../components/shared/Footer";
 import styles from '../css/ProtectedLayout.module.scss'
 import { useAuth } from '../hooks/useAuth';
 import { DotLoader } from 'react-spinners';
 import { useMediaQuery } from 'react-responsive';
-import { NavbarLarge } from '../components/NavbarLarge';
-import { NavbarSmall } from '../components/NavbarSmall';
+import { NavbarLarge } from '../components/shared/NavbarLarge';
+import { NavbarSmall } from '../components/shared/NavbarSmall';
 
 export const Protected = () => { 
     const {user, initializing} = useAuth();

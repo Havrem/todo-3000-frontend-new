@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import styles from '../css/CreateTodoForm.module.scss';
 import { toast } from "react-toastify";
-import { useUpdateTodo } from "../hooks/useTodos";
-import type { UpdateTodoRequest, Todo } from '../schemas/todo.schema';
+import { useUpdateTodo } from "../../../hooks/useTodos";
+import type { UpdateTodoRequest, Todo } from '../../../schemas/todo.schema';
 import { ZodError } from "zod/v4";
-import { ApiError } from "../utils/ApiError";
+import { ApiError } from "../../../utils/ApiError";
+import { AppError } from "../../../utils/AppError";
 
 interface EditTodoFormProps {
     onCancel: () => void;
@@ -26,6 +27,8 @@ export const EditTodoForm = ({onCancel, todo}:EditTodoFormProps) => {
                 console.error('Unexpected type in apiresponse. Zod parsing failed.')
             } else if (error instanceof ApiError) {
                 console.warn('Something went wrong.', error);
+            } else if (error instanceof AppError) {
+                console.warn(error.message, error.cause);
             } else {
                 console.warn('Something went wrong', error);
             }

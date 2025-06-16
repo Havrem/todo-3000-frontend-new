@@ -1,5 +1,5 @@
 import styles from '../css/TodoDetails.module.scss';
-import type { Todo } from '../schemas/todo.schema'
+import type { Todo } from '../../schemas/todo.schema'
 
 export const TodoDetails = ({todo}:{todo: Todo}) => {
     return(

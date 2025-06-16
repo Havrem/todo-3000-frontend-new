@@ -3,6 +3,7 @@ import { z } from 'zod/v4';
 import { errorResponseSchema } from "../schemas/api.schema";
 import { ApiError } from "../utils/ApiError";
 import { auth } from "./firebaseService";
+import { AppError } from "../utils/AppError";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -35,16 +36,12 @@ async function request<T>(
     try {
       data = await res.json();
     } catch (err) {
-      throw new Error("Error formatting response to json.")
+      throw new AppError({message: "Error formatting response to json.", cause: err})
     }
 
     if(!res.ok) {
-      try {
         const errorResponse = errorResponseSchema.parse(data);
         throw new ApiError(errorResponse);
-      } catch (err) {
-        throw err;
-      }
     }
     
     return schema.parse(data);
@@ -53,7 +50,7 @@ async function request<T>(
       throw err;
     }
 
-    throw new Error("Unknown error during request.")
+    throw new AppError({message: "Unknown error during request.", cause: err})
   }
 }
 

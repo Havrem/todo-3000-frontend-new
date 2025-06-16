@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import styles from '../../css/LoginForm.module.scss';
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { useNavigate } from "@tanstack/react-router";
 

@@ -1,9 +1,9 @@
 import { Link, useNavigate} from '@tanstack/react-router';
 import styles from '../css/NavbarLarge.module.scss'
-import { HomeIcon } from './icon/HomeIcon';
-import { ProfileIcon } from './icon/ProfileIcon';
-import { TodoIcon } from './icon/TodoIcon';
-import { useAuth } from '../hooks/useAuth';
+import { HomeIcon } from '../icon/HomeIcon';
+import { ProfileIcon } from '../icon/ProfileIcon';
+import { TodoIcon } from '../icon/TodoIcon';
+import { useAuth } from '../../hooks/useAuth';
 
 export const NavbarLarge = () => {
     const { logout } = useAuth();

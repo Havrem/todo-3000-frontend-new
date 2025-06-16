@@ -1,13 +1,14 @@
-import type { Todo, UpdateTodoRequest } from '../schemas/todo.schema';
+import type { Todo, UpdateTodoRequest } from '../../schemas/todo.schema';
 import styles from '../css/TodoItem.module.scss'
-import { RemoveIcon } from "./icon/RemoveIcon";
-import { CompleteIcon } from "./icon/CompleteIcon";
-import { NotCompleteIcon } from "./icon/NotCompleteIcon";
-import { useDeleteTodo, useUpdateTodo } from "../hooks/useTodos";
+import { RemoveIcon } from "../icon/RemoveIcon";
+import { CompleteIcon } from "../icon/CompleteIcon";
+import { NotCompleteIcon } from "../icon/NotCompleteIcon";
+import { useDeleteTodo, useUpdateTodo } from "../../hooks/useTodos";
 import { toast } from "react-toastify";
-import { EditIcon } from "./icon/EditIcon";
+import { EditIcon } from "../icon/EditIcon";
 import { ZodError } from 'zod/v4';
-import { ApiError } from '../utils/ApiError';
+import { ApiError } from '../../utils/ApiError';
+import { AppError } from '../../utils/AppError';
 
 
 export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) => void, edit: (todo: Todo) => void}) => {
@@ -28,6 +29,8 @@ export const TodoItem = ({todo, select, edit}:{todo:Todo, select: (todo: Todo) =
                 console.error('Unexpected type in apiresponse. Zod parsing failed.')
             } else if (error instanceof ApiError) {
                 console.warn('Something went wrong.', error);
+            } else if (error instanceof AppError) {
+                console.warn(error.message, error.cause);
             } else {
                 console.warn('Something went wrong', error);
             }

@@ -1,21 +1,22 @@
 import { useEffect } from 'react';
-import styles from '../css/DashboardSmall.module.scss';
-import { useTodos } from '../hooks/useTodos';
+import styles from '../css/DashboardLarge.module.scss';
+import { useTodos } from '../../hooks/useTodos';
 import { toast } from 'react-toastify';
 import { PuffLoader } from 'react-spinners';
 import dayjs from 'dayjs';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { ZodError } from 'zod/v4';
-import { ApiError } from '../utils/ApiError';
+import { ApiError } from '../../utils/ApiError';
+import { AppError } from '../../utils/AppError';
 
-export const DashboardSmall = () => {
+export const DashboardLarge = () => {
     const { user } = useAuth();
     const imageSrcUrl = user?.photoURL || '/avatars/elephant.png';
     const {data: todos = [], isLoading, error} = useTodos();
     const upcoming = todos
             .filter(todo => !todo.completed)
             .sort((a, b) => a.due.valueOf() - b.due.valueOf())
-            .slice(0, 4);
+            .slice(0, 6);
 
     useEffect(() => {
         if (error) {
@@ -24,6 +25,8 @@ export const DashboardSmall = () => {
                 console.error('Unexpected type in apiresponse. Zod parsing failed.')
             } else if (error instanceof ApiError) {
                 console.warn('Something went wrong.', error);
+            } else if (error instanceof AppError) {
+                console.warn(error.message, error.cause);
             } else {
                 console.warn('Something went wrong', error);
             }

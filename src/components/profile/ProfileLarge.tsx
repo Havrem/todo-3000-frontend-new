@@ -1,5 +1,5 @@
 import styles from '../css/ProfileLarge.module.scss';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 export const ProfileLarge = () => {
     const { user } = useAuth();

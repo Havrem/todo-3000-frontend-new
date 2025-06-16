@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import styles from '../css/ProfileSmall.module.scss';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 export const ProfileSmall = () => {
     const { user, logout } = useAuth();
